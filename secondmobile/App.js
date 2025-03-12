@@ -1,23 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { View } from "react-native";
+import HomeScreen from "./pages/HomeScreen";
+import DetailsScreen from "./pages/DetailsScreen";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>SUMMER NIGHT FESTIVAL</Text>
-      <Text>the best of music in one event! #comingsoon</Text>
-      <StatusBar style="auto" />
-    </View>
-
-  );
+    return (
+        <View>
+        <HomeScreen />
+        <DetailsScreen />
+        </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#D91656',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-});
