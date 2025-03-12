@@ -1,10 +1,5 @@
-import styles from "../styles/Header";
-import header from "../componentes/Header";
+import { registerRootComponent } from 'expo';
 
-export default function Home() {
-    return (
-        <div className={styles.container}>
-            <header/>
-        </div>
-    )
-}
+import App from './App';
+
+registerRootComponent(App);
