@@ -1,12 +1,32 @@
-import React from "react"; 
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet} from "react-native"; 
+import * as SecureStore from "expo-secure-store";
 
-export default function Details() {
+const TextoExibido = ({ titulo, texto, cor }) => (
+    <Text style={[styles.texto, { color: cor }]}>
+        {titulo}: {texto || "Nenhum texto salvo"}
+    </Text>
+);
+
+export default function Details({ route }) {
+    const { textoNaoPersistido } = route.params || {};
+    const [textoPersistido, setTextoPersistido] = useState("");
+
+    useEffect(() => {
+        const carregarTextoPersistido = async () => {
+            const textoSalvo = await SecureStore.getItemAsync("meuTexto");
+            if (textoSalvo) {
+                setTextoPersistido(textoSalvo);
+            }
+        };
+        carregarTextoPersistido();
+    }, []);
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Detalhes</Text>
-            <Text style={styles.vermText}>Sem persistência: nenhum texto salvo</Text>
-            <Text style={styles.verdText}>Texto persistido: nenhum texto salvo</Text>
+            <Text style={styles.titulo}>Detalhes</Text>
+            <TextoExibido titulo="Sem persistência" texto={textoNaoPersistido} cor="red" />
+            <TextoExibido titulo="Persistência" texto={textoPersistido} cor="green" />
         </View>
     );
 }
@@ -14,22 +34,17 @@ export default function Details() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        gap: 50,
+        paddingVertical: 100,
+        paddingHorizontal: 25,
     },
-    title: {
-        fontSize: 25,
+    titulo: {
+        fontSize: 32,
+        textAlign: "center",
         textDecorationLine: "underline",
-        marginBottom: 50,
     },
-    vermText: {
-        color: "red",
+    texto: {
         fontSize: 20,
-        marginBottom: 20,
+        textAlign: "center",
     },
-    verdText: {
-        color: "green",
-        fontSize: 20,
-        marginBottom: 20,
-    }
 });
